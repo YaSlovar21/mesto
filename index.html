@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mesto-Russia</title>
+  <link rel="stylesheet" href="pages/index.css">
+</head>
+<body class="root">
+    <header class="header">
+        <img src="images/logo-mesto.svg" class="header__logo" alt="Место Россия">
+    </header>
+    <main>
+    <section class="profile">
+            <img class="profile__avatar" src="images/profile__avatar.jpg" alt="Аватар пользователя">
+            <div class="profile__info">
+                <h1 class="profile__name">Жак-Ив Кусто</h1>
+                <p class="profile__about">Исследователь океана</p>
+            </div>
+            <img class="profile__edit-button" src="images/edit-button.svg">
+            <div class="profile__add">
+                <button class="profile__add-button"><img src="images/profile-plus.svg"></button>
+            </div>
+    </section>
+
+    <section class="elements">
+        <div class="elements__item">
+            <img class="elements__image" src="images/karachay0.jpg">
+            <div class="elements__footer">
+                <h3 class="elements__heading">Карачаевск</h3>
+                <img src="images/like-svg.svg" class="elements__like">
+            </div>
+        </div>
+        <div class="elements__item">
+            <img class="elements__image" src="images/elbrus.png">
+            <div class="elements__footer">
+                <h3 class="elements__heading">Гора Эльбрус</h3>
+                <img src="images/like-svg.svg" class="elements__like">
+            </div>
+        </div>
+        <div class="elements__item">
+            <img class="elements__image" src="images/dombay.png">
+            <div class="elements__footer">
+                <h3 class="elements__heading">Домбай</h3>
+                <img src="images/like-svg.svg" class="elements__like">
+            </div>
+        </div>
+        <div class="elements__item">
+            <img class="elements__image" src="images/elbrus1.png">
+            <div class="elements__footer">
+                <h3 class="elements__heading">Гора Эльбрус</h3>
+                <img src="images/like-svg.svg" class="elements__like">
+            </div>
+        </div>
+        <div class="elements__item">
+            <img class="elements__image" src="images/dombai1.png">
+            <div class="elements__footer">
+                <h3 class="elements__heading">Домбай</h3>
+                <img src="images/like-svg.svg" class="elements__like">
+            </div>
+        </div>
+        <div class="elements__item">
+            <img class="elements__image" src="images/karachay-cherkess.png">
+            <div class="elements__footer">
+                <h3 class="elements__heading">Карачаево-Черкессия</h3>
+                <img src="images/like-svg.svg" class="elements__like">
+            </div>
+        </div>
+    </section>
+    
+    </main>
+    <footer class="footer">
+        <p class="footer__column-copyright">&copy; 2020 Mesto Russia</p>
+    </footer>
+
+    <div class="popup">
+        <form class="popup__container" method="post" action="#" id="formProfile">
+          <button class="popup__button-close">&cross;</button>
+          <h2 class="popup__title">Редактировать профиль</h2>
+          <input class="popup__input popup__input_type_place" placeholder="Жак-Ив Кусто" minlength="1" maxlength="30" />
+          <input class="popup__input popup__input_type_link" placeholder="Исследователь океана" />
+          <button class="popup__button-save" type="submit">Отправить</button>
+        </form>
+    </div>
+
+
+    <script>
+        let popupOpenButton = document.querySelector('.profile__edit-button');
+        let popup = document.querySelector('.popup');
+        let popupCloseButton = document.querySelector('.popup__button-close');
+
+        function popup_open() {
+            popup.classList.add('popup_opened');
+        }
+
+        function popup_close() {
+            popup.classList.remove('popup_opened');
+        }
+        popupOpenButton.addEventListener('click', popup_open);
+        popupCloseButton.addEventListener('click', popup_close);
+
+    </script>
+</body>
+</html>

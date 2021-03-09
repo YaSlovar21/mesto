@@ -1,0 +1,16 @@
+.profile__add-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    width: 150px;
+    height: 50px;
+
+    box-sizing: border-box;
+    border: 2px solid #fff;
+    border-radius: 2px;
+
+    font-size: 22px;
+    color: #fff;
+    outline: none;
+}

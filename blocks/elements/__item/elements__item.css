@@ -1,0 +1,11 @@
+.elements__item {
+    position: relative;
+    border-radius: 13px; /*уточнить*/
+
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 282px;
+    height: 361px;
+    background-color: white;
+}

@@ -1,0 +1,7 @@
+.elements__image {
+    object-fit: contain;
+    object-position: 0 0;
+
+    width: 282px;
+    height: 282px;
+}
