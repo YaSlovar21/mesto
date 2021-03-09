@@ -77,8 +77,8 @@
         <form class="popup__container" method="post" action="#" id="formProfile">
           <button class="popup__button-close link-beauty">&cross;</button>
           <h2 class="popup__title">Редактировать профиль</h2>
-          <input class="popup__input popup__input_type_place" placeholder="Жак-Ив Кусто" minlength="1" maxlength="30" />
-          <input class="popup__input popup__input_type_link" placeholder="Исследователь океана" />
+          <input class="popup__input popup__input_type_name" placeholder="Жак-Ив Кусто" minlength="1" maxlength="30" />
+          <input class="popup__input popup__input_type_about" placeholder="Исследователь океана" />
           <button class="popup__button-save" type="submit">Отправить</button>
         </form>
     </div>
@@ -99,6 +99,39 @@
         popupOpenButton.addEventListener('click', popup_open);
         popupCloseButton.addEventListener('click', popup_close);
 
+
+        // Находим форму в DOM
+        let formElement = document.querySelector('.popup__container');
+        // Находим поля формы в DOM
+        let nameInput = document.querySelector('.popup__input_type_name');
+        let jobInput = document.querySelector('.popup__input_type_about');
+
+        // Обработчик «отправки» формы, хотя пока
+        // она никуда отправляться не будет
+        function formSubmitHandler(evt) {
+            console.log('1234');
+            evt.preventDefault(); 
+            // Эта строчка отменяет стандартную отправку формы.
+            // Так мы можем определить свою логику отправки.
+            // О том, как это делать, расскажем позже.
+
+            // Получите значение полей jobInput и nameInput из свойства value
+            let new_name = nameInput.value;
+            console.log(new_name);
+            let new_job = jobInput.value;
+            // Выберите элементы, куда должны быть вставлены значения полей
+            let accaunt_name = document.querySelector('.profile__name');
+            let accaunt_job = document.querySelector('.profile__about')
+            // Вставьте новые значения с помощью textContent
+            accaunt_name.textContent = new_name;
+            accaunt_job.textContent = new_job;
+            popup_close(); 
+        }
+
+        // Прикрепляем обработчик к форме:
+        // он будет следить за событием “submit” - «отправка»
+        formElement.addEventListener('submit', formSubmitHandler);
+        
     </script>
 </body>
 </html>
