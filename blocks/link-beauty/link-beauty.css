@@ -1,0 +1,7 @@
+.link-beauty {
+    transition: opacity .2s linear;
+}
+  
+.link-beauty:hover {
+    opacity: .6;
+}

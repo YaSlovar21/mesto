@@ -1,4 +1,10 @@
 .footer {
-    margin-top: 67px;
-    color: white;
+    margin: 66px 0 60px;
+    color: #545454;
+}
+
+@media screen and (max-width: 680px) {
+    .footer {
+        padding-left: calc((100vw - 282px) / 2);
+    }
 }

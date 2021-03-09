@@ -16,9 +16,11 @@
 }
 
 
-@media (max-width: 400px) {
+@media (max-width: 550px) {
     .popup__container {
-      width: 240px;
-      height: 258px;
+      width: 282px;
+      height: 322px;
+
+      padding: 25px 22px;
     }
-  }
+}
