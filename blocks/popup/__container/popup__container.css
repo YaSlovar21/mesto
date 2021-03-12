@@ -6,7 +6,7 @@
     margin: auto;
 
     width: 430px;
-    height: 330px;
+    /*height: 330px;*/
 
     background-color: #fff;
     border-radius: 10px;
@@ -19,7 +19,7 @@
 @media (max-width: 550px) {
     .popup__container {
       width: 282px;
-      height: 322px;
+      /*height: 322px;*/
 
       padding: 25px 22px;
     }
