@@ -1,3 +1,15 @@
 .profile__info {
     position: relative;
+    display: flex;
+    flex-basis: 100%;
+    
+    flex-wrap: wrap;
+}
+
+@media screen and (max-width: 730px) {
+    .profile__info {
+        max-width: 200px;
+        margin: 0 auto;
+        justify-content: center;
+    }
 }

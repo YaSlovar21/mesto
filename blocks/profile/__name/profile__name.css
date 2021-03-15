@@ -7,9 +7,15 @@
     line-height: 1.14;
     color: #FFFFFF;
     margin-bottom: 16px;
+
+    /*flex-basis: 300px;*/
+    max-width: 350px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (max-width: 730px) {
     .profile__name {
         font-weight: 500;
         font-size: 27px;

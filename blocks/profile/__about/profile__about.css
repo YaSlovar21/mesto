@@ -6,11 +6,14 @@
     line-height: 1.22;
     
     color: #FFFFFF;
+
+    flex-basis: 100%;
+
 }
 
 
 
-@media screen and (max-width: 680px) {
+@media screen and (max-width: 730px) {
     .profile__about {
         font-size: 14px;
      
