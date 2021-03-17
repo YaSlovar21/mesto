@@ -19,7 +19,7 @@
                 <p class="profile__about">Исследователь океана</p>
             </div>
             
-           <button class="profile__add-button link-beauty"><img src="images/profile-plus.svg" alt="Добавить"></button>
+           <button type="button" class="profile__add-button link-beauty"><img src="images/profile-plus.svg" alt="Добавить"></button>
     </section>
 
     <section class="elements">
@@ -73,11 +73,11 @@
     </footer>
 
     <div class="popup">
-        <form class="popup__container" method="post" action="#" id="formProfile">
+        <form class="popup__container" method="post" action="#" id="formProfile" name="formProfile">
           <button class="popup__button-close link-beauty" type="reset">&cross;</button>
           <h2 class="popup__title">Редактировать профиль</h2>
-          <input class="popup__input popup__input_type_name" placeholder="Жак-Ив Кусто" minlength="1" maxlength="30" />
-          <input class="popup__input popup__input_type_about" placeholder="Исследователь океана" />
+          <input class="popup__input popup__input_type_name" name="nameProfile" placeholder="Жак-Ив Кусто" minlength="1" maxlength="30" />
+          <input class="popup__input popup__input_type_about" name="aboutProfile" placeholder="Исследователь океана" />
           <button class="popup__button-save" type="submit">Сохранить</button>
         </form>
     </div>
