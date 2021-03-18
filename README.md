@@ -17,3 +17,4 @@
 
 Оптимизированы с помощью https://tinypng.com/.
 
+Ссылка на готовый проект: https://yaslovar21.github.io/mesto/
