@@ -10,56 +10,11 @@
     
 }
 
-.popup__form {
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-    display: none;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.7s, visibility 0s linear 0.3s;
 
-    width: 430px;
-    box-sizing: border-box;
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 36px;
-}
-
-.popup__image-view {
-    display: none;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.7s, visibility 0s linear 0.3s;
-    flex-direction: column;
-}
-
-.popup__image {
-  max-width: 75vw;
-  max-height: 75vh;
-  object-fit: contain;
-}
-
-.popup__image-description {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 15px;
-
-  color: #FFFFFF;
-
-  margin: 10px 0 0;
-}
 
 @media (max-width: 550px) {
     .popup__container {
       width: 282px;
-      /*height: 322px;*/
-
-      
-    }
-
-    .popup__form {
-      padding: 25px 22px;
+      /*height: 322px;*/ 
     }
 }
