@@ -17,7 +17,7 @@
 @import url(../blocks/elements/__heading/elements__heading.css);
 @import url(../blocks/elements/__like/elements__like.css);
 @import url(../blocks/elements/__like/_liked/elements__like_liked.css);
-
+@import url(../blocks/elements/__delete-button/elements__delete-button.css);
 
 @import url(../blocks/profile/profile.css);
 @import url(../blocks/profile/__info/profile__info.css);
