@@ -1,19 +1,9 @@
-/*
+const accauntName = document.querySelector('.profile__name');
+const accauntJob = document.querySelector('.profile__about');
 
-callback = document.querySelector('.up-footer__call');
-popup_all = document.querySelector('#popupCards.popup');
-popup_all_close_button = document.querySelector('#popupCards .popup__button-close');
 
-callback.addEventListener('click', function(element) {
-  popup_all.classList.add('popup_opened');
-});
-
-popup_all_close_button.addEventListener('click', function(element) {
-  popup_all.classList.remove('popup_opened');
-});
-
-*/
-
+let nameInput = document.querySelector('.popup__input_type_name');
+let jobInput = document.querySelector('.popup__input_type_about');
 
 const popupBack = document.querySelector('.popup');
 const popupFormEdit = document.querySelector('#formProfile.popup__form');
@@ -43,6 +33,7 @@ function popupClose (){
         }
         if (popupImageContainer.classList.contains('popup_opened')) {
                 popupImageContainer.classList.remove('popup_opened');
+                popupBack.classList.remove('popup_darked');
         }
 }
 
@@ -50,11 +41,14 @@ function popupImageOpen (desc, link){
         popupImage.src=link;
         popupImageDesc.textContent = desc;
         popupOpen();
+        popupBack.classList.add('popup_darked');
         popupImageContainer.classList.add('popup_opened');
 }
 
 popupProfileOpenButton.addEventListener('click', function () {
         popupOpen();
+        nameInput.value = accauntName.textContent;
+        jobInput.value = accauntJob.textContent;
         popupFormEdit.classList.add('popup_opened');
 });
 
@@ -128,8 +122,7 @@ initialCards.reverse().forEach(element => {
         addCard(element.name, element.link);
 });
 
-let accauntName = document.querySelector('.profile__name');
-let accauntJob = document.querySelector('.profile__about');
+
 
 
 const formProfile = document.querySelector('#formProfile');
