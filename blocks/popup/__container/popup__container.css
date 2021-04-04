@@ -1,7 +1,8 @@
 .popup__container {
     position: relative;
-
-
+    display: flex;
+    margin: auto;
+    
 
     
     /*height: 330px;*/
