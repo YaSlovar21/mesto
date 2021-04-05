@@ -3,3 +3,9 @@
     max-height: 75vh;
     object-fit: contain;
 }
+
+@media screen and (max-width:450px) {
+    .popup__image {
+        max-width: 100%;
+    }
+}
