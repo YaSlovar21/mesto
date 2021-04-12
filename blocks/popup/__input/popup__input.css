@@ -7,20 +7,24 @@
     line-height: 24px;
     outline: none;
   }
-  
+
 .popup__input:nth-of-type(1) {
-  margin-bottom: 30px;
+  margin-bottom: 5px;
 }
 .popup__input:nth-of-type(2) {
-  margin-bottom: 48px;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  /*+35 верхний отступ от кнопки*/
 }
-  
-@media (max-width: 400px) {
+
+@media (max-width: 480px) {
     .popup__input:nth-of-type(1) {
-      margin-bottom: 30px;
+      margin-bottom: 5px;
     }
     .popup__input:nth-of-type(2) {
-      margin-bottom: 45px;
+      margin-top: 25px;
+      margin-bottom: 10px;
+      /*+35 верхний отступ от кнопки*/
     }
 }
 

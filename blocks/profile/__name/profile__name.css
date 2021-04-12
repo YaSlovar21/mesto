@@ -10,6 +10,7 @@
 
     /*flex-basis: 300px;*/
     max-width: 350px;
+    min-width: 180px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

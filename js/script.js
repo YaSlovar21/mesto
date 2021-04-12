@@ -23,6 +23,9 @@ function openModal(modal) {
 
 function closeModal(modal) {
   modal.classList.remove("popup_opened");
+  let formToReset = modal.querySelector('.popup__form');  
+  formToReset.reset();
+
 }
 
 const closeButtons = document.querySelectorAll(".popup__button-close");
@@ -147,8 +150,7 @@ function formProfileSubmitHandler(evt) {
 
   closeModal(profileModal);
 
-  nameInput.value = "";
-  jobInput.value = "";
+  formProfile.reset();
 }
 
 function formCardSubmitHandler(evt) {
@@ -162,8 +164,7 @@ function formCardSubmitHandler(evt) {
 
   closeModal(cardAddModal);
 
-  name.value = "";
-  link.value = "";
+  formCard.reset();
 }
 
 formProfile.addEventListener("submit", formProfileSubmitHandler);

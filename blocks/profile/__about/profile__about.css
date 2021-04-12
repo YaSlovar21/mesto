@@ -7,11 +7,11 @@
     
     color: #FFFFFF;
 
-    flex-basis: 100%;
+    flex: 0 1 700px;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    
     overflow: hidden;
-    max-width: 300px;
+    max-width: 370;
 }
 
 
