@@ -168,3 +168,25 @@ function formCardSubmitHandler(evt) {
 
 formProfile.addEventListener("submit", formProfileSubmitHandler);
 formCard.addEventListener("submit", formCardSubmitHandler);
+
+
+//Закрытие попап через OVERLAY и ESC
+
+const modals = Array.from(document.querySelectorAll('.popup'));
+
+modals.forEach(function(popup) {
+  popup.addEventListener('click' , function(evt) {
+    if (evt.target.classList.contains('popup_opened')) {
+      evt.target.classList.remove('popup_opened');
+    }
+  });
+});
+
+document.body.addEventListener('keydown', function(evt) {
+  if (evt.key == 'Escape') {
+    popupOpened = document.querySelector('.popup_opened');
+    if (popupOpened) {
+      popupOpened.classList.remove('popup_opened');
+    }
+  }
+});
