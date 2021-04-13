@@ -1,68 +1,3 @@
-const accountName = document.querySelector(".profile__name");
-const accountJob = document.querySelector(".profile__about");
-
-const nameInput = document.querySelector(".popup__input_type_name");
-const jobInput = document.querySelector(".popup__input_type_about");
-
-//кнопки для открытия попапа
-const popupProfileOpenButton = document.querySelector(".profile__edit-button");
-const popupCardOpenButton = document.querySelector(".profile__add-button");
-
-//3 попапа
-const profileModal = document.querySelector(".popup-profile");
-const cardAddModal = document.querySelector(".popup-card");
-const imageModal = document.querySelector(".popup-viewport");
-
-//картинка+подпись в модальном imageModal
-const popupImage = imageModal.querySelector(".popup__image");
-const popupImageDesc = imageModal.querySelector(".popup__image-description");
-
-function openModal(modal) {
-  modal.classList.add("popup_opened");
-}
-
-function closeModal(modal) {
-  modal.classList.remove("popup_opened");
-  let formToReset = modal.querySelector('.popup__form');  
-  formToReset.reset();
-
-}
-
-const closeButtons = document.querySelectorAll(".popup__button-close");
-const closeButtonsArr = Array.from(closeButtons);
-closeButtonsArr.forEach(function (button) {
-  button.addEventListener("click", function () {
-    let popupToClose = this.closest(".popup");
-    closeModal(popupToClose);
-  });
-});
-
-function openProfileModal() {
-  openModal(profileModal);
-  nameInput.value = accountName.textContent;
-  jobInput.value = accountJob.textContent;
-}
-
-function openCardModal() {
-  openModal(cardAddModal);
-  //nameInput.value = accountName.textContent;
-  //jobInput.value = accountJob.textContent;
-}
-
-function popupImageOpen(desc, link) {
-  popupImage.src = link;
-  popupImageDesc.textContent = desc;
-  openModal(imageModal);
-}
-
-popupProfileOpenButton.addEventListener("click", openProfileModal);
-popupCardOpenButton.addEventListener("click", openCardModal);
-
-//Спринт 5
-
-const cardsContainer = document.querySelector(".elements");
-const cardTemplate = document.querySelector("#card-template").content;
-
 const initialCards = [
   {
     name: "Архыз",
@@ -96,13 +31,78 @@ const initialCards = [
   },
 ];
 
+const accountName = document.querySelector(".profile__name");
+const accountJob = document.querySelector(".profile__about");
+
+const nameInput = document.querySelector(".popup__input_type_name");
+const jobInput = document.querySelector(".popup__input_type_about");
+
+//кнопки для открытия попапа
+const popupProfileOpenButton = document.querySelector(".profile__edit-button");
+const popupCardOpenButton = document.querySelector(".profile__add-button");
+
+//3 попапа
+const profileModal = document.querySelector(".popup-profile");
+const cardAddModal = document.querySelector(".popup-card");
+const imageModal = document.querySelector(".popup-viewport");
+
+//картинка+подпись в модальном imageModal
+const popupImage = imageModal.querySelector(".popup__image");
+const popupImageDesc = imageModal.querySelector(".popup__image-description");
+
+function openModal(modal) {
+  modal.classList.add("popup_opened");
+  document.addEventListener('keydown',  closeByEsc);
+}
+
+function closeModal(modal) {
+  modal.classList.remove("popup_opened");
+  document.removeEventListener('keydown', closeByEsc);
+}
+
+const closeButtons = document.querySelectorAll(".popup__button-close");
+const closeButtonsArr = Array.from(closeButtons);
+closeButtonsArr.forEach(function (button) {
+  button.addEventListener("click", function () {
+    const popupToClose = this.closest(".popup");
+    closeModal(popupToClose);
+  });
+});
+
+function openProfileModal() {
+  openModal(profileModal);
+  nameInput.value = accountName.textContent;
+  jobInput.value = accountJob.textContent;
+}
+
+function openCardModal() {
+  openModal(cardAddModal);
+  //nameInput.value = accountName.textContent;
+  //jobInput.value = accountJob.textContent;
+}
+
+function popupImageOpen(desc, link) {
+  popupImage.src = link;
+  popupImageDesc.textContent = desc;
+  openModal(imageModal);
+}
+
+popupProfileOpenButton.addEventListener("click", openProfileModal);
+popupCardOpenButton.addEventListener("click", openCardModal);
+
+//Спринт 5
+
+const cardsContainer = document.querySelector(".elements");
+const cardTemplate = document.querySelector("#card-template").content;
+
 function createCard(name, link) {
   const cardElement = cardTemplate
     .querySelector(".elements__item")
     .cloneNode(true);
 
-  cardElement.querySelector(".elements__image").src = link;
-  cardElement.querySelector(".elements__image").alt = name;
+  const cardImage = cardElement.querySelector(".elements__image");
+  cardImage.src = link;
+  cardImage.alt = name;
   cardElement.querySelector(".elements__heading").textContent = name;
 
   cardElement
@@ -176,18 +176,18 @@ formCard.addEventListener("submit", formCardSubmitHandler);
 const modals = Array.from(document.querySelectorAll('.popup'));
 
 modals.forEach(function(popup) {
-  popup.addEventListener('click' , function(evt) {
+  popup.addEventListener('mousedown' , function(evt) {
     if (evt.target.classList.contains('popup_opened')) {
-      evt.target.classList.remove('popup_opened');
+      closeModal(evt.target);
     }
   });
 });
 
-document.body.addEventListener('keydown', function(evt) {
-  if (evt.key == 'Escape') {
-    popupOpened = document.querySelector('.popup_opened');
-    if (popupOpened) {
-      popupOpened.classList.remove('popup_opened');
-    }
+const ESC_CODE = 'Escape';
+
+function closeByEsc(evt) {
+  if (evt.key === ESC_CODE) {
+    const openedModal = document.querySelector('.popup_opened');
+    closeModal(openedModal); 
   }
-});
+} 
