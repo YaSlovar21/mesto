@@ -158,11 +158,14 @@ function formCardSubmitHandler(evt) {
 
   const name = document.querySelector(".popup__input_type_place");
   const link = document.querySelector(".popup__input_type_link");
+  const buttonCard = document.querySelector(".popup__button-save_type_card");
 
   const newCard = createCard(name.value, link.value);
   addCard(newCard, cardsContainer);
 
   closeModal(cardAddModal);
+  buttonCard.classList.add('popup__button-save_disabled');
+  buttonCard.setAttribute('disabled', true);
 
   formCard.reset();
 }
