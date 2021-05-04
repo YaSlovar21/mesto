@@ -95,6 +95,35 @@ popupCardOpenButton.addEventListener("click", openCardModal);
 const cardsContainer = document.querySelector(".elements");
 const cardTemplate = document.querySelector("#card-template").content;
 
+
+
+class Card {
+  constructor(name, link) {
+      this._name = name;
+      this._link = link;
+  }
+  
+  _getTemplate() {
+      const cardElement = document
+        .querySelector('#card-template')
+        .content
+        .querySelector(".elements__item")
+        .cloneNode(true);
+
+      return cardElement;
+  }
+
+  generateCard() {
+      this._element = this._getTemplate();
+
+      this._element.querySelector(".elements__image").src = this._link;
+      this._element.querySelector(".elements__image").alt = this._name;
+      this._element.querySelector(".elements__heading").textContent = this._name;
+      return this._element;
+  }
+}
+
+/*
 function createCard(name, link) {
   const cardElement = cardTemplate
     .querySelector(".elements__item")
@@ -126,14 +155,22 @@ function createCard(name, link) {
     });
   return cardElement;
 }
+*/
 
 function addCard(card, container) {
   container.prepend(card);
 }
 
+/*
 initialCards.reverse().forEach((element) => {
   const cardToAdd = createCard(element.name, element.link);
   addCard(cardToAdd, cardsContainer);
+});
+*/
+initialCards.reverse().forEach((element) => {
+  const cardToAdd =  new Card(element.name, element.link);
+  const card = cardToAdd.generateCard();
+  addCard(card, cardsContainer);
 });
 
 const formProfile = document.querySelector("#formProfile");
