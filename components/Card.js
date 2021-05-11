@@ -1,14 +1,16 @@
+//избавиться от сильной связи в 8й работе
 import {popupImageOpen} from '../pages/index.js';
 
 export default class Card {
-    constructor(name, link) {
+    constructor(name, link, cardSelector) {
         this._name = name;
         this._link = link;
+        this._cardSelector = cardSelector;
     }
     
     _getTemplate() {
         const cardElement = document
-          .querySelector('#card-template')
+          .querySelector(this._cardSelector)
           .content
           .querySelector(".elements__item")
           .cloneNode(true);

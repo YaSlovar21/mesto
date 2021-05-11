@@ -1,6 +1,8 @@
-import { initialCards } from '../utils/constants.js';
+import { initialCards, cardTemplateSelector } from '../utils/constants.js';
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
+
+
 
 const accountName = document.querySelector(".profile__name");
 const accountJob = document.querySelector(".profile__about");
@@ -34,8 +36,8 @@ function closeModal(modal) {
 const closeButtons = document.querySelectorAll(".popup__button-close");
 const closeButtonsArr = Array.from(closeButtons);
 closeButtonsArr.forEach(function (button) {
-  button.addEventListener("click", function () {
-    const popupToClose = this.closest(".popup");
+  button.addEventListener("click", function (evt) {
+    const popupToClose = evt.target.closest(".popup");
     closeModal(popupToClose);
   });
 });
@@ -46,8 +48,14 @@ function openProfileModal() {
   jobInput.value = accountJob.textContent;
 }
 
+
 function openCardModal() {
+  //зачистить поля ошибок для первого открытия попапа
+  cardAddModal.querySelectorAll('.popup__input').forEach((input) => {
+    input.classList.remove('popup__input_type_error');
+  });
   openModal(cardAddModal);
+
   //nameInput.value = accountName.textContent;
   //jobInput.value = accountJob.textContent;
 }
@@ -89,9 +97,16 @@ const cardsContainer = document.querySelector(".elements");
 function addCard(card, container) {
   container.prepend(card);
 }
+
+function createCard(name, link) {
+  const card = new Card(name, link, cardTemplateSelector);
+  const cardToAdd = card.generateCard();
+
+  return cardToAdd;
+}
+
 initialCards.reverse().forEach((element) => {
-  const cardToAdd =  new Card(element.name, element.link);
-  const card = cardToAdd.generateCard();
+  const card = createCard(element.name, element.link);
   addCard(card, cardsContainer);
 });
 
@@ -122,9 +137,8 @@ function formCardSubmitHandler(evt) {
   const link = document.querySelector(".popup__input_type_link");
   const buttonCard = document.querySelector(".popup__button-save_type_card");
 
-  const newCard =  new Card(name.value, link.value);
-  const newCardToAdd = newCard.generateCard();
-  addCard(newCardToAdd, cardsContainer);
+  const card = createCard(name.value, link.value);
+  addCard(card, cardsContainer);
 
   closeModal(cardAddModal);
   buttonCard.classList.add('popup__button-save_disabled');

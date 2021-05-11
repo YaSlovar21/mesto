@@ -30,3 +30,5 @@ export const initialCards = [
         "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
     },
   ];
+
+  export const cardTemplateSelector = "#card-template";
