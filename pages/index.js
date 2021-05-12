@@ -51,9 +51,9 @@ function openProfileModal() {
 
 function openCardModal() {
   //зачистить поля ошибок для первого открытия попапа
-  cardAddModal.querySelectorAll('.popup__input').forEach((input) => {
-    input.classList.remove('popup__input_type_error');
-  });
+  //cardAddModal.querySelectorAll('.popup__input').forEach((input) => {
+  //  input.classList.remove('popup__input_type_error');
+  //});
   openModal(cardAddModal);
 
   //nameInput.value = accountName.textContent;
