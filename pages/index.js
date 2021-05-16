@@ -1,5 +1,6 @@
-import { initialCards, cardTemplateSelector } from '../utils/constants.js';
+import { initialCards, cardTemplateSelector, imageModal } from '../utils/constants.js';
 import Card from '../components/Card.js';
+import Section from '../components/Section.js';
 import FormValidator from '../components/FormValidator.js';
 
 
@@ -7,17 +8,11 @@ import FormValidator from '../components/FormValidator.js';
 const accountName = document.querySelector(".profile__name");
 const accountJob = document.querySelector(".profile__about");
 
-const nameInput = document.querySelector(".popup__input_type_name");
-const jobInput = document.querySelector(".popup__input_type_about");
 
-//кнопки для открытия попапа
-const popupProfileOpenButton = document.querySelector(".profile__edit-button");
-const popupCardOpenButton = document.querySelector(".profile__add-button");
 
-//3 попапа
-const profileModal = document.querySelector(".popup-profile");
-const cardAddModal = document.querySelector(".popup-card");
-const imageModal = document.querySelector(".popup-viewport");
+
+
+
 
 //картинка+подпись в модальном imageModal
 const popupImage = imageModal.querySelector(".popup__image");
@@ -66,6 +61,15 @@ export function popupImageOpen(desc, link) {
   openModal(imageModal);
 }
 
+//новая версия popupImageOpen
+function handleCardClick(desc, link) {
+  popupImage.src = link;
+  popupImageDesc.textContent = desc;
+  openModal(imageModal);
+}
+
+
+
 popupProfileOpenButton.addEventListener("click", openProfileModal);
 popupCardOpenButton.addEventListener("click", openCardModal);
 
@@ -80,7 +84,6 @@ modals.forEach(function(popup) {
   });
 });
 
-const ESC_CODE = 'Escape';
 
 function closeByEsc(evt) {
   if (evt.key === ESC_CODE) {
@@ -162,4 +165,6 @@ formList.forEach((formElement) => {
   }, formElement);
   formValidator.enableValidation();
 }); 
+
+
 
