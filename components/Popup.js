@@ -15,7 +15,7 @@ export default class Popup {
                 this.close();
             }
         }
-        this._setEventListeners();
+        //this._setEventListeners();
     }
 
     open() {
@@ -30,7 +30,7 @@ export default class Popup {
         document.removeEventListener("click", this._handleOverlayClick);
     }
 
-    _setEventListeners(){
+    setEventListeners(){
         this._modal
             .querySelector('.popup__button-close')
             .addEventListener('click', () => {

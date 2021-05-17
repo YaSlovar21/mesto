@@ -8,10 +8,7 @@ export default class PopupWithForm extends Popup {
         this._formElement = this._modal.querySelector(formElement);
         console.log('1' + this._modal.querySelector(formElement));
 
-        this._formElement.addEventListener('submit', (evt) => {
-            evt.preventDefault();
-            this._formSubmitHandler();
-        });
+        
     }
 
     //собираем поля формы
@@ -27,8 +24,11 @@ export default class PopupWithForm extends Popup {
         this._formElement.reset();
     }
 
-    _setEventListeners() {
-        super._setEventListeners();
-        
+    setEventListeners() {
+        super.setEventListeners();
+        this._formElement.addEventListener('submit', (evt) => {
+            evt.preventDefault();
+            this._formSubmitHandler();
+        });
     }
 }

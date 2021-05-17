@@ -47,6 +47,7 @@ const profileModal = new PopupWithForm({
   formElement: '#formProfile', 
 }, profileModalSelector)
 
+profileModal.setEventListeners();
 
 const cardAddModal = new PopupWithForm({
   formSubmitHandler: () => {
@@ -67,6 +68,7 @@ const cardAddModal = new PopupWithForm({
   formElement: '#formCard',
 }, cardAddModalSelector)
 
+cardAddModal.setEventListeners();
 
 //картинка+подпись в модальном imageModal
 //const popupImage = imageModal.querySelector(".popup__image");
@@ -75,6 +77,8 @@ const popupImage = new PopupWithImage({
   popupImageSelector: '.popup__image',
   popupImageDescSelector: '.popup__image-description'
 }, popupImageSelector)
+
+popupImage.setEventListeners();
 
 //новая версия popupImageOpen
 function handleImageClick(desc, link) {
@@ -109,6 +113,9 @@ cardList.renderItems(initialCards);
 
 
 popupProfileOpenButton.addEventListener("click", () => {
+  const profileInfo = userInfo.getUserInfo();
+  nameInput.value = profileInfo.name;
+  jobInput.value = profileInfo.about;
   profileModal.open();
 });
 popupCardOpenButton.addEventListener("click", ()=> {
