@@ -1,6 +1,7 @@
 export default class Section {
-    constructor({initialcards, renderer}, cardlistSelector) {
-        this._renderedItems = initialcards;
+
+    constructor({data, renderer}, cardlistSelector) {
+        this._renderedItems = data;
         this._container = document.querySelector(cardlistSelector);
         this._renderer = renderer;
     }
@@ -10,7 +11,7 @@ export default class Section {
     }
 
     renderItems() {
-        this._renderedItems.forEach(element => {
+        this._renderedItems.reverse().forEach(item => {
             this._renderer(item);
         });
     }

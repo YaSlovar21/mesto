@@ -32,19 +32,15 @@ export const initialCards = [
   ];
 
 //кнопки для открытия попапа
-export const popupProfileOpenButton = document.querySelector(".profile__edit-button");
-export const popupCardOpenButton = document.querySelector(".profile__add-button");
-
-//3 попапа
-export const profileModal = document.querySelector(".popup-profile");
-export const cardAddModal = document.querySelector(".popup-card");
-export const imageModal = document.querySelector(".popup-viewport");
-
-export const nameInput = document.querySelector(".popup__input_type_name");
-export const jobInput = document.querySelector(".popup__input_type_about");
 
 
 export const cardTemplateSelector = "#card-template";
 
 export const ESC_CODE = 'Escape';
+//3 попапа
+export const profileModalSelector = '.popup-profile';
+export const cardAddModalSelector = '.popup-card';
+export const popupImageSelector = '.popup-viewport'
 
+//контейнер для Section
+export const cardsContainerSelector = '.elements';
