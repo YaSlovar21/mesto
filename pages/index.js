@@ -3,7 +3,12 @@ import { initialCards,
   cardAddModalSelector,
   popupImageSelector,
   cardsContainerSelector,
-  cardTemplateSelector} from '../utils/constants.js';
+  cardTemplateSelector,
+  popupProfileOpenButton, 
+  popupCardOpenButton,
+  nameInput, //поле ввода формы изменения данных о профиле
+  jobInput   //поле ввода формы изменения данных о профиле
+} from '../utils/constants.js';
 
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
@@ -11,14 +16,6 @@ import FormValidator from '../components/FormValidator.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import PopupWithImage from '../components/PopupWithImage.js';
-
-
-const popupProfileOpenButton = document.querySelector(".profile__edit-button");
-const popupCardOpenButton = document.querySelector(".profile__add-button");
-
-
-const nameInput = document.querySelector(".popup__input_type_name");
-const jobInput = document.querySelector(".popup__input_type_about");
 
 
 //const accountName = document.querySelector(".profile__name");
