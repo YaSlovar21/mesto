@@ -1,3 +1,9 @@
+import logo from '../images/logo-mesto.svg';
+import addbutton from '../images/profile-plus.svg';
+import profiltAva  from '../images/profile__avatar.jpg';
+
+import '../pages/index.css';
+
 import { initialCards,
   profileModalSelector,
   cardAddModalSelector,
