@@ -12,6 +12,9 @@ import { initialCards,
   cardTemplateSelector,
   popupProfileOpenButton, 
   popupCardOpenButton,
+  buttonCard, //кнопка сабмита формы добавления карточки 
+
+  //используются только при открытии формы измнения данных о пользователе
   nameInput, //поле ввода формы изменения данных о профиле
   jobInput   //поле ввода формы изменения данных о профиле
 } from '../utils/constants.js';
@@ -31,21 +34,34 @@ const userInfo = new UserInfo({
   userAboutSelector: '.profile__about'
 });
 
-const profileModal = new PopupWithForm({
-  formSubmitHandler: (evt) => {
-    //evt.preventDefault();
-    const newName = nameInput.value;
-    const newAbout = jobInput.value;
+function createCard(name, link) {
+  const card = new Card(name, link, cardTemplateSelector, handleImageClick);
+  const cardToAdd = card.generateCard();
+  return cardToAdd;
+}
 
-    //accountName.textContent = newName;
-    //accountJob.textContent = newJob;
+const cardList = new Section({
+  data: initialCards,
+  renderer: (item) => {
+    const card = createCard(item.name, item.link);
+    //addCard(card, cardsContainer);
+    cardList.setItem(card);
+  }
+}, cardsContainerSelector);
+
+
+cardList.renderItems(initialCards);
+
+const profileModal = new PopupWithForm({
+  formSubmitHandler: (formProfileData) => {
+    const newName = formProfileData.name;
+    const newAbout = formProfileData.about;
     userInfo.setUserInfo({
       name: newName,
       about: newAbout,
     })
     profileModal.close();
     //reset в классе!!
-    //formProfile.reset();
   },
   formElement: '#formProfile', 
 }, profileModalSelector)
@@ -53,20 +69,14 @@ const profileModal = new PopupWithForm({
 profileModal.setEventListeners();
 
 const cardAddModal = new PopupWithForm({
-  formSubmitHandler: () => {
-    //evt.preventDefault();
-    const name = document.querySelector(".popup__input_type_place");
-    const link = document.querySelector(".popup__input_type_link");
-    const buttonCard = document.querySelector(".popup__button-save_type_card");
+  formSubmitHandler: (formCardData) => {
+    const card = createCard(formCardData.name, formCardData.link);
 
-    const card = createCard(name.value, link.value);
-    addCard(card, cardsContainer);
-
+    cardList.setItem(card);
     cardAddModal.close();
+
     buttonCard.classList.add('popup__button-save_disabled');
     buttonCard.setAttribute('disabled', true);
-
-    //formCard.reset();
   },
   formElement: '#formCard',
 }, cardAddModalSelector)
@@ -90,30 +100,6 @@ function handleImageClick(desc, link) {
     name: desc,
   })
 }
-
-function createCard(name, link) {
-  const card = new Card(name, link, cardTemplateSelector, handleImageClick);
-  const cardToAdd = card.generateCard();
-  return cardToAdd;
-}
-
-function addCard(card, container) {
-  container.prepend(card);
-}
-
-const cardsContainer = document.querySelector(".elements");
-
-const cardList = new Section({
-  data: initialCards,
-  renderer: (item) => {
-    const card = createCard(item.name, item.link);
-    addCard(card, cardsContainer);
-  }
-}, cardsContainerSelector);
-
-
-cardList.renderItems(initialCards);
-
 
 popupProfileOpenButton.addEventListener("click", () => {
   const profileInfo = userInfo.getUserInfo();

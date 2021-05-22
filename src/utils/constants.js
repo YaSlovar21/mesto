@@ -47,6 +47,7 @@ export const cardsContainerSelector = '.elements';
 
 export const popupProfileOpenButton = document.querySelector(".profile__edit-button");
 export const popupCardOpenButton = document.querySelector(".profile__add-button");
+export const buttonCard = document.querySelector(".popup__button-save_type_card");
 
 export const nameInput = document.querySelector(".popup__input_type_name");
 export const jobInput = document.querySelector(".popup__input_type_about");
