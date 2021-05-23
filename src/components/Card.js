@@ -26,7 +26,7 @@ export default class Card {
         this._cardImage = this._element.querySelector('.elements__image');
         this._cardHeading = this._element.querySelector(".elements__heading");
         this._cardLike = this._element.querySelector(".elements__like");
-        console.log(this._cardImage);
+        //console.log(this._cardImage);
 
         this._cardImage.src = this._link;
         this._cardImage.alt = this._name;

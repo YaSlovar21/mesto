@@ -25,7 +25,15 @@ import FormValidator from '../components/FormValidator.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import PopupWithImage from '../components/PopupWithImage.js';
+import Api from '../components/Api.js';
 
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-24',
+  headers: {
+    authorization: '7ca5b34f-d430-4580-a7ad-8a26fa855204',
+    'Content-Type': 'application/json'
+  }
+}); 
 
 //const accountName = document.querySelector(".profile__name");
 //const accountJob = document.querySelector(".profile__about");
@@ -50,17 +58,38 @@ const cardList = new Section({
 }, cardsContainerSelector);
 
 
-cardList.renderItems(initialCards);
+//cardList.renderItems(initialCards);
+Promise.resolve(api.getInitialCards())
+  .then(cards => {
+    cardList.renderItems(cards);
+  })
+  .catch((error) => {
+    console.log(error);
+})
 
+Promise.resolve(api.getInfoUser())
+  .then(userData => {
+    console.log(userData);
+    userInfo.setUserInfo(userData);
+  })
+  .catch((error) => {
+    console.log(error);
+})
+
+//api.getInitialCards();
 const profileModal = new PopupWithForm({
   formSubmitHandler: (formProfileData) => {
     const newName = formProfileData.name;
     const newAbout = formProfileData.about;
-    userInfo.setUserInfo({
-      name: newName,
-      about: newAbout,
-    })
-    profileModal.close();
+    Promise.resolve(api.setInfoUser(newName, newAbout))
+      .then(() => {
+        userInfo.setUserInfo({
+          name: newName,
+          about: newAbout,
+        })
+        profileModal.close();
+      })
+      .catch(() => console.log('что то пошло не так'));
     //reset в классе!!
   },
   formElement: '#formProfile', 
