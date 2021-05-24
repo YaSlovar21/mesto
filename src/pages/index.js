@@ -53,7 +53,7 @@ const userInfo = new UserInfo({
 //  })
 //}
 
-function createCard(name, link, ownerId) {
+function createCard(name, link, likesSum) {
   const card = new Card(name, link, cardTemplateSelector, {
     handleImageClick: (desc, link) => {
         popupImage.open({
@@ -64,7 +64,7 @@ function createCard(name, link, ownerId) {
     handleLikeClick: () => {
 
     },
-    });
+    }, likesSum);
   const cardToAdd = card.generateCard();
   return cardToAdd;
 }
@@ -74,7 +74,8 @@ function createCard(name, link, ownerId) {
 const cardList = new Section({
   renderer: (item) => {
     //этой точке знаем все данные карточки
-    const card = createCard(item.name, item.link, item.owner._id);
+    const likesSum = item.likes.length;
+    const card = createCard(item.name, item.link, likesSum);
     cardList.setItem(card);
   }
 }, cardsContainerSelector);
@@ -91,9 +92,10 @@ api.getInitialCards()
 
 api.getInfoUser()
   .then(userData => {
-    console.log(userData);
+    //console.log(userData);
     userInfo.setUserInfo(userData);
-    
+    userInfo.myId = userData._id; //правильно ли???
+    console.log(userInfo);
   })
   .catch((error) => {
     console.log(error);
@@ -121,11 +123,15 @@ profileModal.setEventListeners();
 
 const cardAddModal = new PopupWithForm({
   formSubmitHandler: (formCardData) => {
-    const card = createCard(formCardData.name, formCardData.link);
+    api.addCard(formCardData.name, formCardData.link)
+      .then((response) => {
+        console.log(response);
+        let card = createCard(response.name, response.link);
+        cardList.setItem(card);
+      })
+      .catch(error => console.log(error));
 
-    cardList.setItem(card);
     cardAddModal.close();
-
     buttonCard.classList.add('popup__button-save_disabled');
     buttonCard.setAttribute('disabled', true);
   },
