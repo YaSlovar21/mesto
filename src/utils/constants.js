@@ -36,11 +36,12 @@ export const initialCards = [
 
 export const cardTemplateSelector = "#card-template";
 
-export const ESC_CODE = 'Escape';
+export const ESC_CODE = 'Escape'; 
 //3 попапа
 export const profileModalSelector = '.popup-profile';
 export const cardAddModalSelector = '.popup-card';
-export const popupImageSelector = '.popup-viewport'
+export const popupImageSelector = '.popup-viewport';
+export const popupAvatarSelector = '.popup-avatar';
 
 //контейнер для Section
 export const cardsContainerSelector = '.elements';
@@ -48,6 +49,8 @@ export const cardsContainerSelector = '.elements';
 export const popupProfileOpenButton = document.querySelector(".profile__edit-button");
 export const popupCardOpenButton = document.querySelector(".profile__add-button");
 export const buttonCard = document.querySelector(".popup__button-save_type_card");
+export const avatarChangeButton = document.querySelector(".profile__avatar-change-button");
+
 
 export const nameInput = document.querySelector(".popup__input_type_name");
 export const jobInput = document.querySelector(".popup__input_type_about");

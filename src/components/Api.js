@@ -15,9 +15,6 @@ export default class Api {
             }
             Promise.reject(`Ошибка: ${response.status}`);
         })
-        .catch((err) => {
-            console.log(err);
-        })
     }
 
     addCard(name, link) {
@@ -37,6 +34,28 @@ export default class Api {
         })
     }
 
+    deleteCard(id) {
+        return fetch(`${this._baseUrl}/cards/${id}`, {
+            method: 'DELETE',
+            headers: this._headers,
+          })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            Promise.reject(`Ошибка: ${response.status}`);
+          });
+    }
+
+    addLike(card) {
+
+    }
+
+    removeLike(card) {
+
+    }
+
+    //аватар приходит данным методом
     getInfoUser(){
         return fetch(`${this._baseUrl}/users/me`, {
             headers: this._headers,
@@ -46,10 +65,11 @@ export default class Api {
                 return response.json();
             }
             Promise.reject(`Ошибка: ${response.status}`);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+        });
+// ошибки ловим в index.js
+//        .catch((err) => {
+//            console.log(err);
+//        })
     }
 
     setInfoUser(name, about) {
@@ -66,6 +86,23 @@ export default class Api {
                 return response.json()
             }
             Promise.reject(`Ошибка: ${response.status}`);
+        });
+    }
+
+    //обновляем аватар данным методом
+    updateProfileImage(link) {
+        return fetch(`${this._baseUrl}/users/me/avatar`, {
+            method: 'PATCH',
+            headers: this._headers,
+            body: JSON.stringify({
+                avatar: link,
+            }),
         })
+        .then((response)=> {
+            if (response.ok) {
+                return response.json()
+            }
+            Promise.reject(`Ошибка: ${response.status}`);
+        });
     }
 }

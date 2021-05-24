@@ -12,59 +12,19 @@
     </header>
     <main>
     <section class="profile">
-        <img class="profile__avatar" src="<%=require('./images/profile__avatar.jpg')%>" alt="Аватар пользователя">
-            <div class="profile__info">
-                <h1 class="profile__name">Жак-Ив Кусто</h1>
-                <button type="button" class="profile__edit-button link-beauty"></button>
-                <p class="profile__about">Исследователь океана</p>
-            </div>
-            
-           <button type="button" class="profile__add-button link-beauty"><img src="<%=require('./images/profile-plus.svg')%>" alt="Добавить"></button>
+        <!--<img class="profile__avatar" src="<%=require('./images/profile__avatar.jpg')%>" alt="Аватар пользователя">-->
+        <img class="profile__avatar" src="" alt="Аватар пользователя">
+        <div class="profile__avatar-change-button"></div>
+        
+        <div class="profile__info">
+            <h1 class="profile__name">Жак-Ив Кусто</h1>
+            <button type="button" class="profile__edit-button link-beauty"></button>
+            <p class="profile__about">Исследователь океана</p>
+        </div>
+        <button type="button" class="profile__add-button link-beauty"><img src="<%=require('./images/profile-plus.svg')%>" alt="Добавить"></button>
     </section>
 
     <section class="elements">
-        <!--<div class="elements__item">
-            <img class="elements__image" src="images/karachay0.jpg" alt="Карачаевск">
-            <div class="elements__footer">
-                <h2 class="elements__heading">Карачаевск</h2>
-                <button type="button" class="elements__like elements__like_liked link-beauty link-beauty_type_like"></button>
-            </div>
-        </div>
-        <div class="elements__item">
-            <img class="elements__image" src="images/elbrus.png" alt="Гора Эльбрус">
-            <div class="elements__footer">
-                <h2 class="elements__heading">Гора Эльбрус</h2>
-                <button type="button" class="elements__like link-beauty link-beauty_type_like"></button>
-            </div>
-        </div>
-        <div class="elements__item">
-            <img class="elements__image" src="images/dombay.png" alt="Домбай">
-            <div class="elements__footer">
-                <h2 class="elements__heading">Домбай</h2>
-                <button type="button" class="elements__like link-beauty link-beauty_type_like"></button>
-            </div>
-        </div>
-        <div class="elements__item">
-            <img class="elements__image" src="images/elbrus1.png" alt="Гора Эльбрус">
-            <div class="elements__footer">
-                <h2 class="elements__heading">Гора Эльбрус</h2>
-                <button type="button" class="elements__like link-beauty link-beauty_type_like"></button>
-            </div>
-        </div>
-        <div class="elements__item">
-            <img class="elements__image" src="images/dombai1.png" alt="Домбай">
-            <div class="elements__footer">
-                <h2 class="elements__heading">Домбай</h2>
-                <button type="button" class="elements__like link-beauty link-beauty_type_like"></button>
-            </div>
-        </div>
-        <div class="elements__item">
-            <img class="elements__image" src="images/karachay-cherkess.png" alt="Карачаево-Черкессия">
-            <div class="elements__footer">
-                <h2 class="elements__heading">Карачаево-Черкессия</h2>
-                <button type="button" class="elements__like link-beauty link-beauty_type_like"></button>
-            </div>
-        </div>-->
     </section>
     
     </main>
@@ -114,12 +74,38 @@
         </div>
     </div>
 
+    <div class="popup popup-confirmation">
+        <div class="popup__container">
+            <button class="popup__button-close link-beauty" type="button"></button>
+            <form class="popup__form" id="formConfirmDelete" name="ConfirmDelete" method="post" action="#" novalidate>
+                <h2 class="popup__title">Вы уверены?</h2>
+                <button class="popup__button-save popup__button-save_type_card" type="submit">Да</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="popup popup-avatar">
+        <div class="popup__container">
+            <button class="popup__button-close link-beauty" type="button"></button>
+            <form class="popup__form" id="formAvatar" name="Avatar" method="post" action="#" novalidate>
+                <h2 class="popup__title">Обновить аватар</h2>
+                <input class="popup__input popup__input_type_avatar" id="place-link-input" type="url" placeholder="Ссылка на картинку" name="link" required  />
+                <span class="popup__input-error place-link-input-error"></span>
+                
+                <button class="popup__button-save popup__button-save_type_card" type="submit">Сохранить</button>
+            </form>
+        </div>
+    </div>
+
     <template id="card-template">
         <div class="elements__item">
             <img class="elements__image" src="images/karachay-cherkess.png" alt="Карачаево-Черкессия">
             <div class="elements__footer">
                 <h2 class="elements__heading">Карачаево-Черкессия</h2>
-                <button type="button" class="elements__like link-beauty link-beauty_type_like"></button>
+                <div class="elements__like-container">
+                    <button type="button" class="elements__like link-beauty link-beauty_type_like"></button>
+                    <p class="elements__likes">2</p>
+                </div>
             </div>
             <button type="button" class="elements__delete-button link-beauty link-beauty_type_like"></button>
         </div>

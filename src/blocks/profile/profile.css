@@ -3,6 +3,8 @@
     margin-top: 40px;
     margin-bottom: 51px;
     align-items: center;
+
+    position: relative;
 }
 
 @media screen and (max-width: 730px) {

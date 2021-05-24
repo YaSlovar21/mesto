@@ -4,14 +4,16 @@ import profiltAva  from '../images/profile__avatar.jpg';
 
 import '../pages/index.css';
 
-import { initialCards,
+import { //initialCards,
   profileModalSelector,
   cardAddModalSelector,
   popupImageSelector,
+  popupAvatarSelector,
   cardsContainerSelector,
   cardTemplateSelector,
   popupProfileOpenButton, 
   popupCardOpenButton,
+  avatarChangeButton,
   buttonCard, //кнопка сабмита формы добавления карточки 
 
   //используются только при открытии формы измнения данных о пользователе
@@ -39,49 +41,69 @@ const api = new Api({
 //const accountJob = document.querySelector(".profile__about");
 const userInfo = new UserInfo({
   userNameSelector: '.profile__name',
-  userAboutSelector: '.profile__about'
+  userAboutSelector: '.profile__about',
+  avatarSelector: '.profile__avatar',
 });
 
-function createCard(name, link) {
-  const card = new Card(name, link, cardTemplateSelector, handleImageClick);
+//новая версия popupImageOpen
+//function handleImageClick(desc, link) {
+ // popupImage.open({
+//    link: link,
+//    name: desc,
+//  })
+//}
+
+function createCard(name, link, ownerId) {
+  const card = new Card(name, link, cardTemplateSelector, {
+    handleImageClick: (desc, link) => {
+        popupImage.open({
+          link: link,
+          name: desc,
+        });
+    },
+    handleLikeClick: () => {
+
+    },
+    });
   const cardToAdd = card.generateCard();
   return cardToAdd;
 }
 
+
+
 const cardList = new Section({
-  data: initialCards,
   renderer: (item) => {
-    const card = createCard(item.name, item.link);
-    //addCard(card, cardsContainer);
+    //этой точке знаем все данные карточки
+    const card = createCard(item.name, item.link, item.owner._id);
     cardList.setItem(card);
   }
 }, cardsContainerSelector);
 
 
-//cardList.renderItems(initialCards);
-Promise.resolve(api.getInitialCards())
+//cardList.renderItems();
+api.getInitialCards()
   .then(cards => {
     cardList.renderItems(cards);
   })
   .catch((error) => {
     console.log(error);
-})
+  })
 
-Promise.resolve(api.getInfoUser())
+api.getInfoUser()
   .then(userData => {
     console.log(userData);
     userInfo.setUserInfo(userData);
+    
   })
   .catch((error) => {
     console.log(error);
-})
+  })
 
-//api.getInitialCards();
 const profileModal = new PopupWithForm({
   formSubmitHandler: (formProfileData) => {
     const newName = formProfileData.name;
     const newAbout = formProfileData.about;
-    Promise.resolve(api.setInfoUser(newName, newAbout))
+    api.setInfoUser(newName, newAbout)
       .then(() => {
         userInfo.setUserInfo({
           name: newName,
@@ -113,8 +135,6 @@ const cardAddModal = new PopupWithForm({
 cardAddModal.setEventListeners();
 
 //картинка+подпись в модальном imageModal
-//const popupImage = imageModal.querySelector(".popup__image");
-//const popupImageDesc = imageModal.querySelector(".popup__image-description");
 const popupImage = new PopupWithImage({
   popupImageSelector: '.popup__image',
   popupImageDescSelector: '.popup__image-description'
@@ -122,13 +142,27 @@ const popupImage = new PopupWithImage({
 
 popupImage.setEventListeners();
 
-//новая версия popupImageOpen
-function handleImageClick(desc, link) {
-  popupImage.open({
-    link: link,
-    name: desc,
-  })
-}
+
+
+
+const popupAvatarChange = new PopupWithForm({
+  formSubmitHandler: (formAvatarData) => {
+    console.log(formAvatarData);
+    api.updateProfileImage(formAvatarData.link)
+      .then((response) => {
+        console.log(response);
+        userInfo.updateAvatar(response.avatar);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    popupAvatarChange.close();
+  },
+  formElement: '#formAvatar',
+}, popupAvatarSelector);
+
+popupAvatarChange.setEventListeners();
+
 
 popupProfileOpenButton.addEventListener("click", () => {
   const profileInfo = userInfo.getUserInfo();
@@ -139,6 +173,10 @@ popupProfileOpenButton.addEventListener("click", () => {
 popupCardOpenButton.addEventListener("click", ()=> {
   cardAddModal.open();
 });
+avatarChangeButton.addEventListener("click", () => {
+  popupAvatarChange.open();
+})
+
 
 const formList = Array.from(document.querySelectorAll('.popup__form'));
 formList.forEach((formElement) => {

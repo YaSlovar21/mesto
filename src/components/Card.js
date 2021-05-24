@@ -2,7 +2,7 @@
 //import {popupImageOpen} from '../pages/index.js';
 
 export default class Card {
-    constructor(name, link, cardSelector, handleImageClick) {
+    constructor(name, link, cardSelector, {handleImageClick}) {
         this._name = name;
         this._link = link;
         this._cardSelector = cardSelector;
@@ -26,7 +26,7 @@ export default class Card {
         this._cardImage = this._element.querySelector('.elements__image');
         this._cardHeading = this._element.querySelector(".elements__heading");
         this._cardLike = this._element.querySelector(".elements__like");
-        //console.log(this._cardImage);
+
 
         this._cardImage.src = this._link;
         this._cardImage.alt = this._name;
@@ -39,9 +39,7 @@ export default class Card {
     _handleLikeClick() {
         this._element.querySelector(".elements__like").classList.toggle("elements__like_liked");
     }
-    //_handleImageClick() {
-    //    popupImageOpen(this._name, this._link);
-    //}
+ 
     _handleDeleteClick() {
         //const cardItem = this._element.closest(".elements__item");
         this._element.remove();
