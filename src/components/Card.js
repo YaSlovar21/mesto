@@ -2,12 +2,16 @@
 //import {popupImageOpen} from '../pages/index.js';
 
 export default class Card {
-    constructor(name, link, cardSelector, {handleImageClick}, likesSum) {
+    constructor(name, link, cardSelector, {handleImageClick, isMineCard}, likesSum, ownerId) {
         this._name = name;
         this._link = link;
         this._cardSelector = cardSelector;
         this._handleImageClick = handleImageClick;
+        this._isMineCard = isMineCard;
+
         this._likesSum = likesSum;
+
+        this._ownerId = ownerId;
     }
     
     _getTemplate() {
@@ -28,13 +32,19 @@ export default class Card {
         this._cardHeading = this._element.querySelector(".elements__heading");
         this._cardLike = this._element.querySelector(".elements__like");
         this._cardLikeSum = this._element.querySelector(".elements__likes");
+        this._deleteIcon = this._element.querySelector(".elements__delete-button");
 
         this._cardImage.src = this._link;
         this._cardImage.alt = this._name;
         this._cardHeading.textContent = this._name;
+
         if (this._likesSum === 0) {
           this._cardLikeSum.style.display = 'none';
         }
+        if (!this._isMineCard(this._ownerId)) {
+          this._deleteIcon.style.display = 'none';
+        }
+        
         this._cardLikeSum.textContent = this._likesSum;
 
         this._setEventListeners();

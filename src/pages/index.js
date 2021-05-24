@@ -37,8 +37,6 @@ const api = new Api({
   }
 }); 
 
-//const accountName = document.querySelector(".profile__name");
-//const accountJob = document.querySelector(".profile__about");
 const userInfo = new UserInfo({
   userNameSelector: '.profile__name',
   userAboutSelector: '.profile__about',
@@ -53,7 +51,7 @@ const userInfo = new UserInfo({
 //  })
 //}
 
-function createCard(name, link, likesSum) {
+function createCard(name, link, likesSum, ownerId) {
   const card = new Card(name, link, cardTemplateSelector, {
     handleImageClick: (desc, link) => {
         popupImage.open({
@@ -61,21 +59,25 @@ function createCard(name, link, likesSum) {
           name: desc,
         });
     },
-    handleLikeClick: () => {
-
+    isMineCard: (ownerId) => {
+      if (ownerId === userInfo.myId) {
+        console.log(card);
+        return true;
+      } else {
+        return false;
+      }
     },
-    }, likesSum);
+    }, likesSum, ownerId);
   const cardToAdd = card.generateCard();
   return cardToAdd;
 }
-
 
 
 const cardList = new Section({
   renderer: (item) => {
     //этой точке знаем все данные карточки
     const likesSum = item.likes.length;
-    const card = createCard(item.name, item.link, likesSum);
+    const card = createCard(item.name, item.link, likesSum, item.owner._id);
     cardList.setItem(card);
   }
 }, cardsContainerSelector);
@@ -94,7 +96,7 @@ api.getInfoUser()
   .then(userData => {
     //console.log(userData);
     userInfo.setUserInfo(userData);
-    userInfo.myId = userData._id; //правильно ли???
+    userInfo.myId = userData._id; //правильно ли???????
     console.log(userInfo);
   })
   .catch((error) => {
@@ -113,7 +115,7 @@ const profileModal = new PopupWithForm({
         })
         profileModal.close();
       })
-      .catch(() => console.log('что то пошло не так'));
+      .catch((err) => console.log(err));
     //reset в классе!!
   },
   formElement: '#formProfile', 
@@ -147,8 +149,6 @@ const popupImage = new PopupWithImage({
 }, popupImageSelector)
 
 popupImage.setEventListeners();
-
-
 
 
 const popupAvatarChange = new PopupWithForm({
