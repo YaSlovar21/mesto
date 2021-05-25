@@ -47,12 +47,27 @@ export default class Api {
           });
     }
 
-    addLike(card) {
-
+    addLike(cardId) {
+        return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+            method: "PUT",
+            headers: this._headers,
+          }).then((response) => {
+            if (response.ok) {
+              return response.json();
+            } 
+            Promise.reject(`Что-то пошло не так: ${res.status}`);
+          });
     }
 
-    removeLike(card) {
-
+    removeLike(cardId) {
+        return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+            method: "DELETE",
+            headers: this._headers,
+          }).then((result) => {
+            if (result.ok) {
+              return result.json();
+            } Promise.reject(`Что-то пошло не так: ${res.status}`);
+          });
     }
 
     //аватар приходит данным методом

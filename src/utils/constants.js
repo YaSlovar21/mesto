@@ -42,6 +42,7 @@ export const profileModalSelector = '.popup-profile';
 export const cardAddModalSelector = '.popup-card';
 export const popupImageSelector = '.popup-viewport';
 export const popupAvatarSelector = '.popup-avatar';
+export const popupConfirmSelector = '.popup-confirmation';
 
 //контейнер для Section
 export const cardsContainerSelector = '.elements';

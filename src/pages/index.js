@@ -9,8 +9,10 @@ import { //initialCards,
   cardAddModalSelector,
   popupImageSelector,
   popupAvatarSelector,
+  popupConfirmSelector,
   cardsContainerSelector,
   cardTemplateSelector,
+
   popupProfileOpenButton, 
   popupCardOpenButton,
   avatarChangeButton,
@@ -25,9 +27,20 @@ import Card from '../components/Card.js';
 import Section from '../components/Section.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import PopupConfirm from '../components/PopupConfirm.js';
 import UserInfo from '../components/UserInfo.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import Api from '../components/Api.js';
+
+
+const popupConfirmDelete = new PopupConfirm({
+  formSubmitHandler: () => {
+    Promise.resolve().catch(err => console.log(err));
+  },
+  formElement: '#formConfirmDelete',
+}, popupConfirmSelector)
+
+popupConfirmDelete.setEventListeners();
 
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-24',
@@ -51,7 +64,38 @@ const userInfo = new UserInfo({
 //  })
 //}
 
-function createCard(name, link, likesSum, ownerId) {
+function likeAction(id, isLike, card) {
+  if (isLike) {
+    api
+      .removeLike(id)
+      .then((res) => {
+        card.like = res.likes.length;
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        card.isLike = false;
+        //card.handleLikeIcon();
+      });
+  } else {
+    api
+      .addLike(id)
+      .then((res) => {
+        card.like = res.likes.length;
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        card.isLike = true;
+        //card.handleLikeIcon();
+      });
+  }
+}
+
+function createCard(name, link, likesSum, ownerId, cardId, likesArr) {
+  //gо сути на вход подается cardData
+  //проверяем на мой лайк среди likes
+  //добавляем свойство cardData.isLike = true or false
+
+  //проверяем моя ли карточка, добавляем cardData.isMine = true или false
   const card = new Card(name, link, cardTemplateSelector, {
     handleImageClick: (desc, link) => {
         popupImage.open({
@@ -67,7 +111,28 @@ function createCard(name, link, likesSum, ownerId) {
         return false;
       }
     },
-    }, likesSum, ownerId);
+    isLiked: (likesArr) => {
+      if (likesArr.indexOf(userInfo.myId) != -1) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    handleLikeClick: (id, isLiked) => {
+      likeAction(id, isLiked, card);
+    },
+    handleDeleteClick: (id) => {
+      popupConfirmDelete.open();
+      popupConfirmDelete.setDefaultSubmitHandler(()=> {
+        api.deleteCard(id)
+          .catch(err => console.log(err))
+          .finally(() => {
+            card.removeFromDom();
+            popupConfirmDelete.close();
+          });
+      });
+    },
+    }, likesSum, ownerId, cardId, likesArr);
   const cardToAdd = card.generateCard();
   return cardToAdd;
 }
@@ -77,7 +142,7 @@ const cardList = new Section({
   renderer: (item) => {
     //этой точке знаем все данные карточки
     const likesSum = item.likes.length;
-    const card = createCard(item.name, item.link, likesSum, item.owner._id);
+    const card = createCard(item.name, item.link, likesSum, item.owner._id, item._id, item.likesArr);
     cardList.setItem(card);
   }
 }, cardsContainerSelector);
@@ -168,6 +233,7 @@ const popupAvatarChange = new PopupWithForm({
 }, popupAvatarSelector);
 
 popupAvatarChange.setEventListeners();
+
 
 
 popupProfileOpenButton.addEventListener("click", () => {
