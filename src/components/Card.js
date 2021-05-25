@@ -52,7 +52,9 @@ export default class Card {
         if (!this._isMineCard) {
           this._deleteIcon.style.display = 'none';
         }
-
+        if (this._isLiked) {
+          this._cardLike.classList.add('elements__like_liked');
+        }
         this._cardLikeSum.textContent = this._likesSum;
 
         this._setEventListeners();
@@ -67,14 +69,30 @@ export default class Card {
     //    //const cardItem = this._element.closest(".elements__item");
     //    this._element.remove();
     //}
+
+    updateLikesCount(newCount) {
+      if (newCount === 0) {
+        this._cardLikeSum.style.display = 'none';
+      } else
+      {
+        this._cardLikeSum.style.display = 'block';
+        this._cardLikeSum.textContent = newCount;
+      }
+    }
+    setIsLiked(newBool) {
+      this._isLiked = newBool;
+    }
     removeFromDom() {
       this._element.remove();
     }
 
+    toogleLikeInDom() {
+      this._element.querySelector(".elements__like").classList.toggle("elements__like_liked");
+    }
     _setEventListeners() {
       this._cardLike.addEventListener("click", () => {
-        this._handleLikeClick(this._id, this._resultLikedOrNot, this);
-        this._element.querySelector(".elements__like").classList.toggle("elements__like_liked");
+        this._handleLikeClick(this._id, this._isLiked);
+        
       });
       this._cardImage.addEventListener("click", () => {
         this._handleImageClick(this._name, this._link)

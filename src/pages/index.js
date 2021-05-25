@@ -56,6 +56,18 @@ const userInfo = new UserInfo({
   avatarSelector: '.profile__avatar',
 });
 
+api.getInfoUser()
+  .then(userData => {
+    //console.log(userData);
+    userInfo.setUserInfo(userData);
+    userInfo.myId = userData._id; //правильно ли???????
+    console.log(userInfo.myId);
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+
+
 //новая версия popupImageOpen
 //function handleImageClick(desc, link) {
  // popupImage.open({
@@ -64,31 +76,6 @@ const userInfo = new UserInfo({
 //  })
 //}
 
-function likeAction(id, isLike, card) {
-  if (isLike) {
-    api
-      .removeLike(id)
-      .then((res) => {
-        card.like = res.likes.length;
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        card.isLike = false;
-        //card.handleLikeIcon();
-      });
-  } else {
-    api
-      .addLike(id)
-      .then((res) => {
-        card.like = res.likes.length;
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        card.isLike = true;
-        //card.handleLikeIcon();
-      });
-  }
-}
 
 //function createCard(name, link, likesSum, ownerId, cardId, likesArr) {
 function createCard(cardJson) {
@@ -107,10 +94,13 @@ function createCard(cardJson) {
   if (ownerId == userInfo.myId) {
     isMyCard = true;
   }
-  if (likesArr.indexOf(userInfo.myId) != -1) {
-    isLikedbyMe = true;
-  }
 
+  likesArr.forEach((like) => {
+    if (like._id === userInfo.myId) {
+      isLikedbyMe = true;
+    }
+  })
+  console.log(isLikedbyMe);
   //проверяем моя ли карточка, добавляем cardData.isMine = true или false
   const card = new Card(name, link, cardTemplateSelector, {
     handleImageClick: (desc, link) => {
@@ -121,8 +111,31 @@ function createCard(cardJson) {
     },
     isMineCard: isMyCard,
     isLiked: isLikedbyMe,
-    handleLikeClick: (id, isLiked) => {
-      likeAction(id, isLiked, card);
+    handleLikeClick: (id, _isLiked) => {
+      if (_isLiked) {
+        api.removeLike(id)
+          .then((response) => {
+            console.log(response);
+            card.updateLikesCount(response.likes.length);
+          })
+          .catch((err) => console.log(err))
+          .finally(() => {
+            card.setIsLiked(false);
+            card.toogleLikeInDom();
+          });
+      }
+      else {
+        api.addLike(id)
+          .then((response) => {
+            console.log(response.likes.length);
+            card.updateLikesCount(response.likes.length);
+          })
+          .catch((err) => console.log(err))
+          .finally(() => {
+            card.setIsLiked(true);
+            card.toogleLikeInDom();
+          });
+      }
     },
     handleDeleteClick: (id) => {
       popupConfirmDelete.open();
@@ -161,27 +174,19 @@ api.getInitialCards()
     console.log(error);
   })
 
-api.getInfoUser()
-  .then(userData => {
-    //console.log(userData);
-    userInfo.setUserInfo(userData);
-    userInfo.myId = userData._id; //правильно ли???????
-    console.log(userInfo);
-  })
-  .catch((error) => {
-    console.log(error);
-  })
 
 const profileModal = new PopupWithForm({
   formSubmitHandler: (formProfileData) => {
     const newName = formProfileData.name;
     const newAbout = formProfileData.about;
     api.setInfoUser(newName, newAbout)
-      .then(() => {
+      .then((response) => {
         userInfo.setUserInfo({
           name: newName,
           about: newAbout,
+          avatar: response.avatar,
         })
+        console.log(response);
         profileModal.close();
       })
       .catch((err) => console.log(err));
@@ -195,9 +200,9 @@ profileModal.setEventListeners();
 const cardAddModal = new PopupWithForm({
   formSubmitHandler: (formCardData) => {
     api.addCard(formCardData.name, formCardData.link)
-      .then((response) => {
-        console.log(response);
-        let card = createCard(response.name, response.link);
+      .then((cardJson) => {
+        console.log(cardJson);
+        let card = createCard(cardJson);
         cardList.setItem(card);
       })
       .catch(error => console.log(error));
