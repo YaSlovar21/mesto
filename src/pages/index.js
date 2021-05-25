@@ -90,10 +90,26 @@ function likeAction(id, isLike, card) {
   }
 }
 
-function createCard(name, link, likesSum, ownerId, cardId, likesArr) {
+//function createCard(name, link, likesSum, ownerId, cardId, likesArr) {
+function createCard(cardJson) {
   //gо сути на вход подается cardData
   //проверяем на мой лайк среди likes
   //добавляем свойство cardData.isLike = true or false
+  let likesSum = cardJson.likes.length;
+  let likesArr = cardJson.likes;
+  let name = cardJson.name;
+  let link = cardJson.link;
+  let cardId = cardJson._id;
+  let ownerId = cardJson.owner._id;
+  let isMyCard = false;
+  let isLikedbyMe = false;
+
+  if (ownerId == userInfo.myId) {
+    isMyCard = true;
+  }
+  if (likesArr.indexOf(userInfo.myId) != -1) {
+    isLikedbyMe = true;
+  }
 
   //проверяем моя ли карточка, добавляем cardData.isMine = true или false
   const card = new Card(name, link, cardTemplateSelector, {
@@ -103,21 +119,8 @@ function createCard(name, link, likesSum, ownerId, cardId, likesArr) {
           name: desc,
         });
     },
-    isMineCard: (ownerId) => {
-      if (ownerId === userInfo.myId) {
-        console.log(card);
-        return true;
-      } else {
-        return false;
-      }
-    },
-    isLiked: (likesArr) => {
-      if (likesArr.indexOf(userInfo.myId) != -1) {
-        return true;
-      } else {
-        return false;
-      }
-    },
+    isMineCard: isMyCard,
+    isLiked: isLikedbyMe,
     handleLikeClick: (id, isLiked) => {
       likeAction(id, isLiked, card);
     },
@@ -141,8 +144,9 @@ function createCard(name, link, likesSum, ownerId, cardId, likesArr) {
 const cardList = new Section({
   renderer: (item) => {
     //этой точке знаем все данные карточки
-    const likesSum = item.likes.length;
-    const card = createCard(item.name, item.link, likesSum, item.owner._id, item._id, item.likesArr);
+    //const likesSum = item.likes.length;
+    //const card = createCard(item.name, item.link, likesSum, item.owner._id, item._id, item.likesArr);
+    const card = createCard(item);
     cardList.setItem(card);
   }
 }, cardsContainerSelector);

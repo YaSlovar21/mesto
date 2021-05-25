@@ -49,14 +49,8 @@ export default class Card {
         if (this._likesSum === 0) {
           this._cardLikeSum.style.display = 'none';
         }
-        if (!this._isMineCard(this._ownerId)) {
+        if (!this._isMineCard) {
           this._deleteIcon.style.display = 'none';
-        }
-        
-        if (!this._isLiked(this._likesArr)) {
-          this._resultLikedOrNot = false;
-        } else {
-          this._resultLikedOrNot = true;
         }
 
         this._cardLikeSum.textContent = this._likesSum;
