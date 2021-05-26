@@ -52,6 +52,11 @@ export const popupCardOpenButton = document.querySelector(".profile__add-button"
 export const buttonCard = document.querySelector(".popup__button-save_type_card");
 export const avatarChangeButton = document.querySelector(".profile__avatar-change-button");
 
+export const profileSubmitButton = document.forms.formProfile.querySelector('.popup__button-save');
+export const changeAvaSubmitButton = document.forms.Avatar.querySelector('.popup__button-save');
+export const confirmDeleteSubmitButton = document.forms.ConfirmDelete.querySelector('.popup__button-save');
+
+
 
 export const nameInput = document.querySelector(".popup__input_type_name");
 export const jobInput = document.querySelector(".popup__input_type_about");

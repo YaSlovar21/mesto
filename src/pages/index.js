@@ -4,7 +4,7 @@ import profiltAva  from '../images/profile__avatar.jpg';
 
 import '../pages/index.css';
 
-import { //initialCards,
+import { 
   profileModalSelector,
   cardAddModalSelector,
   popupImageSelector,
@@ -17,7 +17,9 @@ import { //initialCards,
   popupCardOpenButton,
   avatarChangeButton,
   buttonCard, //кнопка сабмита формы добавления карточки 
-
+  profileSubmitButton, //сабмит формы изм. профиля
+  changeAvaSubmitButton,
+  confirmDeleteSubmitButton,
   //используются только при открытии формы измнения данных о пользователе
   nameInput, //поле ввода формы изменения данных о профиле
   jobInput   //поле ввода формы изменения данных о профиле
@@ -32,10 +34,11 @@ import UserInfo from '../components/UserInfo.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import Api from '../components/Api.js';
 
+console.log(profileSubmitButton, changeAvaSubmitButton);
 
 const popupConfirmDelete = new PopupConfirm({
   formSubmitHandler: () => {
-    Promise.resolve().catch(err => console.log(err));
+    //отправлять индивидуальный submithandler
   },
   formElement: '#formConfirmDelete',
 }, popupConfirmSelector)
@@ -58,7 +61,7 @@ const userInfo = new UserInfo({
 
 api.getInfoUser()
   .then(userData => {
-    //console.log(userData);
+
     userInfo.setUserInfo(userData);
     userInfo.myId = userData._id; //правильно ли???????
     console.log(userInfo.myId);
@@ -76,10 +79,9 @@ api.getInfoUser()
 //  })
 //}
 
-
 //function createCard(name, link, likesSum, ownerId, cardId, likesArr) {
 function createCard(cardJson) {
-  //gо сути на вход подается cardData
+  //gо сути на вход подается Json карточки
   //проверяем на мой лайк среди likes
   //добавляем свойство cardData.isLike = true or false
   let likesSum = cardJson.likes.length;
@@ -94,14 +96,14 @@ function createCard(cardJson) {
   if (ownerId == userInfo.myId) {
     isMyCard = true;
   }
-
+  //если в likes мой лайк
   likesArr.forEach((like) => {
     if (like._id === userInfo.myId) {
       isLikedbyMe = true;
     }
   })
-  console.log(isLikedbyMe);
-  //проверяем моя ли карточка, добавляем cardData.isMine = true или false
+  //передаем булевое значение лайка для создания карточки, там записываем в приватное свойство, которое используем в handleLikeClick 
+  console.log(isLikedbyMe); 
   const card = new Card(name, link, cardTemplateSelector, {
     handleImageClick: (desc, link) => {
         popupImage.open({
@@ -109,8 +111,8 @@ function createCard(cardJson) {
           name: desc,
         });
     },
-    isMineCard: isMyCard,
-    isLiked: isLikedbyMe,
+    isMineCard: isMyCard,                     //используются только при создании карточки!
+    isLiked: isLikedbyMe,                     //используются только при создании карточки!
     handleLikeClick: (id, _isLiked) => {
       if (_isLiked) {
         api.removeLike(id)
@@ -140,11 +142,13 @@ function createCard(cardJson) {
     handleDeleteClick: (id) => {
       popupConfirmDelete.open();
       popupConfirmDelete.setDefaultSubmitHandler(()=> {
+        confirmDeleteSubmitButton.textContent = 'Удаление...';
         api.deleteCard(id)
           .catch(err => console.log(err))
           .finally(() => {
             card.removeFromDom();
             popupConfirmDelete.close();
+            confirmDeleteSubmitButton.textContent = 'Удалить';
           });
       });
     },
@@ -156,8 +160,7 @@ function createCard(cardJson) {
 
 const cardList = new Section({
   renderer: (item) => {
-    //этой точке знаем все данные карточки
-    //const likesSum = item.likes.length;
+    //в этой точке знаем все данные карточки
     //const card = createCard(item.name, item.link, likesSum, item.owner._id, item._id, item.likesArr);
     const card = createCard(item);
     cardList.setItem(card);
@@ -179,6 +182,7 @@ const profileModal = new PopupWithForm({
   formSubmitHandler: (formProfileData) => {
     const newName = formProfileData.name;
     const newAbout = formProfileData.about;
+    profileSubmitButton.textContent = 'Сохранение...';
     api.setInfoUser(newName, newAbout)
       .then((response) => {
         userInfo.setUserInfo({
@@ -187,9 +191,12 @@ const profileModal = new PopupWithForm({
           avatar: response.avatar,
         })
         console.log(response);
-        profileModal.close();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        profileModal.close();
+        profileSubmitButton.textContent = 'Сохранить';
+      });
     //reset в классе!!
   },
   formElement: '#formProfile', 
@@ -199,17 +206,22 @@ profileModal.setEventListeners();
 
 const cardAddModal = new PopupWithForm({
   formSubmitHandler: (formCardData) => {
+    buttonCard.textContent = 'Добавление...';
+    //можно в принципе дисэйблить все кнопки на время выполнения запроса
     api.addCard(formCardData.name, formCardData.link)
       .then((cardJson) => {
         console.log(cardJson);
         let card = createCard(cardJson);
         cardList.setItem(card);
       })
-      .catch(error => console.log(error));
-
-    cardAddModal.close();
-    buttonCard.classList.add('popup__button-save_disabled');
-    buttonCard.setAttribute('disabled', true);
+      .catch(error => console.log(error))
+      .finally(() => {
+        cardAddModal.close();
+        buttonCard.classList.add('popup__button-save_disabled');
+        buttonCard.setAttribute('disabled', true);
+        buttonCard.textContent = 'Добавить';
+      });
+    //если дисэйблить кнопку здесь, то это произойдет раньше асинхронного запроса на сохранение
   },
   formElement: '#formCard',
 }, cardAddModalSelector)
@@ -228,6 +240,7 @@ popupImage.setEventListeners();
 const popupAvatarChange = new PopupWithForm({
   formSubmitHandler: (formAvatarData) => {
     console.log(formAvatarData);
+    changeAvaSubmitButton.textContent = 'Сохранение...';
     api.updateProfileImage(formAvatarData.link)
       .then((response) => {
         console.log(response);
@@ -235,8 +248,12 @@ const popupAvatarChange = new PopupWithForm({
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        popupAvatarChange.close();
+        changeAvaSubmitButton.textContent = 'Сохранить';
       });
-    popupAvatarChange.close();
+    
   },
   formElement: '#formAvatar',
 }, popupAvatarSelector);
