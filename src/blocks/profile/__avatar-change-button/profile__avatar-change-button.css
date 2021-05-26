@@ -1,11 +1,10 @@
 .profile__avatar-change-button {
-    position:absolute; 
-    width: 120px; 
-    height: 120px; 
-    background: rgba(0, 0, 0, 0.8) url('../../../images/avaEdit.svg') no-repeat center; 
+    position:absolute;
+    width: 120px;
+    height: 120px;
+    background: rgba(0, 0, 0, 0.8) url('../../../images/avaEdit.svg') no-repeat center;
     cursor: pointer;
     opacity: 0;
-
     transition: opacity 0.4s linear;
 }
 
