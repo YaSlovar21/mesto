@@ -14,12 +14,20 @@ export default class UserInfo {
     }
 
     setUserInfo(data) {
-        this._accountName.textContent = data.name;
-        this._accountAbout.textContent = data.about;
-        this._avatar.src = data.avatar; //при редактировании имя и описания тут НУЛЛ
+        if (data.name) {
+            this._accountName.textContent = data.name;
+        }
+        if (data.about) {
+            this._accountAbout.textContent = data.about;
+        }
+        if (data.avatar) {
+            this._avatar.src = data.avatar; //при редактировании имя и описания тут НУЛЛ
+        }
     }
 
     updateAvatar(link) {
-        this._avatar.src = link;
+        if (link) {
+            this._avatar.src = link;
+        }
     }
 }

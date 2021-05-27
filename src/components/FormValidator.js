@@ -15,6 +15,7 @@ export default class FormValidator {
     this._inactiveButtonClass = params.inactiveButtonClass;
 
     this._formElement = formElement;
+
   }
 
   _showInputError(inputElement, errorMessage) {
@@ -55,6 +56,18 @@ export default class FormValidator {
       buttonElement.removeAttribute('disabled');
     }
   };
+
+  disableSaveButton() {
+    const buttonElement = this._formElement.querySelector(this._submitButtonSelector);
+    buttonElement.classList.add(this._inactiveButtonClass);
+    buttonElement.setAttribute('disabled', true);
+  }
+
+  cleanAllErrors () {
+    Array.from(this._formElement.querySelectorAll('.popup__input')).forEach((inputElement) => {
+      this._hideInputError(inputElement);
+    })
+  }
 
   _setEventListeners() {
     const inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));

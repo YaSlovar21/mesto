@@ -13,21 +13,21 @@ export default class Popup {
         this._handleOverlayClick = (evt) => {
             if (evt.target.classList.contains('popup_opened')) {
                 this.close();
+                console.log(evt.target);
             }
         }
-        //this._setEventListeners();
     }
 
     open() {
         this._modal.classList.add('popup_opened');
-        document.addEventListener('keydown',  this._handleEscButton);
-        document.addEventListener("click", this._handleOverlayClick);
+        this._modal.addEventListener('keydown',  this._handleEscButton);
+        this._modal.addEventListener("mousedown", this._handleOverlayClick);
     }
 
     close() {
         this._modal.classList.remove('popup_opened');
-        document.removeEventListener('keydown',  this._handleEscButton);
-        document.removeEventListener("click", this._handleOverlayClick);
+        this._modal.removeEventListener('keydown',  this._handleEscButton);
+        this._modal.removeEventListener("mousedown", this._handleOverlayClick);
     }
 
     setEventListeners(){

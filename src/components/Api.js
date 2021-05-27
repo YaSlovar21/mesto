@@ -4,16 +4,23 @@ export default class Api {
         this._headers = headers;
         console.log(this._headers);
     }
-
+    _isResponseOk(response) {
+        if (response.ok) {
+            return response.json();
+        } else {
+            return Promise.reject(`Ошибка: ${response.status}`);
+        }
+    }
     getInitialCards() {
         return fetch(`${this._baseUrl}/cards`, {
             headers: this._headers,
         })
         .then((response) => {
-            if (response.ok) {
+            /*if (response.ok) {
                 return response.json();
             }
-            Promise.reject(`Ошибка: ${response.status}`);
+            Promise.reject(`Ошибка: ${response.status}`);*/
+            return this._isResponseOk(response);
         })
     }
 
@@ -27,10 +34,11 @@ export default class Api {
             }),
         })
         .then((response) => {
-            if (response.ok) {
+            /*if (response.ok) {
                 return response.json();
             }
-            Promise.reject(`Ошибка: ${response.status}`);
+            Promise.reject(`Ошибка: ${response.status}`);*/
+            return this._isResponseOk(response);
         })
     }
 
@@ -40,10 +48,11 @@ export default class Api {
             headers: this._headers,
           })
           .then((response) => {
-            if (response.ok) {
+            /*if (response.ok) {
               return response.json();
             }
-            Promise.reject(`Ошибка: ${response.status}`);
+            Promise.reject(`Ошибка: ${response.status}`);*/
+            return this._isResponseOk(response);
           });
     }
 
@@ -52,10 +61,11 @@ export default class Api {
             method: "PUT",
             headers: this._headers,
           }).then((response) => {
-            if (response.ok) {
+            /*if (response.ok) {
               return response.json();
             } 
-            Promise.reject(`Что-то пошло не так: ${res.status}`);
+            Promise.reject(`Что-то пошло не так: ${res.status}`);*/
+            return this._isResponseOk(response);
           });
     }
 
@@ -64,9 +74,10 @@ export default class Api {
             method: "DELETE",
             headers: this._headers,
           }).then((result) => {
-            if (result.ok) {
+            /*if (result.ok) {
               return result.json();
-            } Promise.reject(`Что-то пошло не так: ${res.status}`);
+            } Promise.reject(`Что-то пошло не так: ${res.status}`);*/
+            return this._isResponseOk(result);
           });
     }
 
@@ -76,10 +87,11 @@ export default class Api {
             headers: this._headers,
         })
         .then((response) => {
-            if (response.ok) {
+            /*if (response.ok) {
                 return response.json();
             }
-            Promise.reject(`Ошибка: ${response.status}`);
+            Promise.reject(`Ошибка: ${response.status}`);*/
+            return this._isResponseOk(response);
         });
 // ошибки ловим в index.js
 //        .catch((err) => {
@@ -97,10 +109,11 @@ export default class Api {
             }),
         })
         .then((response)=> {
-            if (response.ok) {
+            /*if (response.ok) {
                 return response.json()
             }
-            Promise.reject(`Ошибка: ${response.status}`);
+            Promise.reject(`Ошибка: ${response.status}`);*/
+            return this._isResponseOk(response);
         });
     }
 
@@ -114,10 +127,11 @@ export default class Api {
             }),
         })
         .then((response)=> {
-            if (response.ok) {
+            /*if (response.ok) {
                 return response.json()
             }
-            Promise.reject(`Ошибка: ${response.status}`);
+            Promise.reject(`Ошибка: ${response.status}`);*/
+            return this._isResponseOk(response);
         });
     }
 }

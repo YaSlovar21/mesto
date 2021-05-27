@@ -87,7 +87,7 @@ export default class Card {
     }
 
     toogleLikeInDom() {
-      this._element.querySelector(".elements__like").classList.toggle("elements__like_liked");
+      this._cardLike.classList.toggle("elements__like_liked");
     }
     _setEventListeners() {
       this._cardLike.addEventListener("click", () => {
@@ -97,7 +97,7 @@ export default class Card {
       this._cardImage.addEventListener("click", () => {
         this._handleImageClick(this._name, this._link)
       });
-      this._element.querySelector(".elements__delete-button").addEventListener("click", () => {
+      this._deleteIcon.addEventListener("click", () => {
         this._handleDeleteClick(this._id);
       }); 
     }

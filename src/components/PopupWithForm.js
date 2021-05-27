@@ -1,10 +1,13 @@
 import Popup from './Popup.js';
 
 export default class PopupWithForm extends Popup {
-    constructor({formSubmitHandler,formElement}, popupSelector) {
+    constructor({formSubmitHandler, formCleanError}, popupSelector) {
         super(popupSelector);
         this._formSubmitHandler = formSubmitHandler;
-        this._formElement = this._modal.querySelector(formElement);
+        this._formCleanError = formCleanError;
+        //this._formElement = this._modal.querySelector(formElement);
+        this._formElement = this._modal.querySelector('.popup__form');
+
     }
 
     //собираем поля формы
@@ -29,6 +32,7 @@ export default class PopupWithForm extends Popup {
     close() {
         super.close();
         this._formElement.reset();
+        this._formCleanError();
     }
 
     setEventListeners() {
