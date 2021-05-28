@@ -1,6 +1,3 @@
-//избавиться от сильной связи в 8й работе
-//import {popupImageOpen} from '../pages/index.js';
-
 export default class Card {
     constructor(name, link, cardSelector, {handleImageClick, isMineCard, isLiked, handleLikeClick, handleDeleteClick}, likesSum, ownerId, cardId, likesArr) {
         this._name = name;
@@ -61,15 +58,6 @@ export default class Card {
         return this._element;
     }
   
-    //_handleLikeClick() {
-    //    this._element.querySelector(".elements__like").classList.toggle("elements__like_liked");
-    //}
- 
-    //_handleDeleteClick() {
-    //    //const cardItem = this._element.closest(".elements__item");
-    //    this._element.remove();
-    //}
-
     updateLikesCount(newCount) {
       if (newCount === 0) {
         this._cardLikeSum.style.display = 'none';

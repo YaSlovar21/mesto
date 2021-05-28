@@ -3,6 +3,7 @@ export default class UserInfo {
         this._accountName = document.querySelector(userNameSelector);
         this._accountAbout = document.querySelector(userAboutSelector);
         this._avatar = document.querySelector(avatarSelector);
+        this._id = null;
     }
 
     getUserInfo() {
@@ -13,7 +14,17 @@ export default class UserInfo {
         }
     }
 
+    setId(id) {
+        if (id) {
+            this._id = id;
+        }
+    }
+    getId() {
+        return this._id;
+    }
+
     setUserInfo(data) {
+        //запись в объект данных, приходят с сервера
         if (data.name) {
             this._accountName.textContent = data.name;
         }

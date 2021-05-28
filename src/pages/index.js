@@ -1,7 +1,3 @@
-import logo from '../images/logo-mesto.svg';
-import addbutton from '../images/profile-plus.svg';
-import profiltAva  from '../images/profile__avatar.jpg';
-
 import '../pages/index.css';
 
 import { 
@@ -24,12 +20,14 @@ import {
   nameInput, //поле ввода формы изменения данных о профиле
   jobInput,   //поле ввода формы изменения данных о профиле
 
-  formValidatorConfig,
   formProfile,
   formCardAdd,
   formAvatar,
   formConfirm,
-
+  //конфиги селекторов
+  formValidatorConfig,
+  userInfoSelectorsConfig,
+  popupImageSelectorsCongig
 } from '../utils/constants.js';
 
 import {
@@ -46,9 +44,7 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import Api from '../components/Api.js';
 //import { from } from 'core-js/core/array';
 
-console.log(profileSubmitButton, changeAvaSubmitButton);
 
-console.log(formCardAdd);
 const formValidatorProfile = new FormValidator(formValidatorConfig, formProfile);
 formValidatorProfile.enableValidation();
 const formValidatorCard = new FormValidator(formValidatorConfig, formCardAdd);
@@ -67,11 +63,7 @@ const api = new Api({
   }
 }); 
 
-const userInfo = new UserInfo({
-  userNameSelector: '.profile__name',
-  userAboutSelector: '.profile__about',
-  avatarSelector: '.profile__avatar',
-});
+const userInfo = new UserInfo(userInfoSelectorsConfig);
 
 const cardList = new Section({
   renderer: (item) => {
@@ -85,27 +77,18 @@ const cardList = new Section({
 Promise.all([api.getInfoUser(), api.getInitialCards()])
   .then(([userData, cards]) => {
     userInfo.setUserInfo(userData);
-    userInfo.myId = userData._id; //правильно ли???????
-    console.log(userInfo.myId);
+    userInfo.setId(userData._id); 
     cardList.renderItems(cards);
   })
   .catch((error) => {
     console.log(error);
   });
 
-//новая версия popupImageOpen
-//function handleImageClick(desc, link) {
- // popupImage.open({
-//    link: link,
-//    name: desc,
-//  })
-//}
 
-//function createCard(name, link, likesSum, ownerId, cardId, likesArr) {
 function createCard(cardJson) {
   //gо сути на вход подается Json карточки
   //проверяем на мой лайк среди likes
-  //добавляем свойство cardData.isLike = true or false
+  //добавляем свойство cardJson.isLike = true or false
   const likesSum = cardJson.likes.length;
   const likesArr = cardJson.likes;
   const name = cardJson.name;
@@ -115,17 +98,16 @@ function createCard(cardJson) {
   let isMyCard = false;
   let isLikedbyMe = false;
 
-  if (ownerId == userInfo.myId) {
+  if (ownerId === userInfo.getId()) { //userInfo.myId) {
     isMyCard = true;
   }
   //если в likes мой лайк
   likesArr.forEach((like) => {
-    if (like._id === userInfo.myId) {
+    if (like._id === userInfo.getId()) {//userInfo.myId) {
       isLikedbyMe = true;
     }
   })
   //передаем булевое значение лайка для создания карточки, там записываем в приватное свойство, которое используем в handleLikeClick 
-  console.log(isLikedbyMe); 
   const card = new Card(name, link, cardTemplateSelector, {
     handleImageClick: (desc, link) => {
         popupImage.open({
@@ -139,7 +121,6 @@ function createCard(cardJson) {
       if (_isLiked) {
         api.removeLike(id)
           .then((response) => {
-            console.log(response);
             card.updateLikesCount(response.likes.length);
           })
           .catch((err) => console.log(err))
@@ -151,7 +132,6 @@ function createCard(cardJson) {
       else {
         api.addLike(id)
           .then((response) => {
-            console.log(response.likes.length);
             card.updateLikesCount(response.likes.length);
           })
           .catch((err) => console.log(err))
@@ -185,7 +165,6 @@ const popupConfirmDelete = new PopupConfirm({
     formSubmitHandler: () => {
       //отправлять индивидуальный submithandler
     },
-    //formElement: '#formConfirmDelete',
 }, popupConfirmSelector)
 
 const profileModal = new PopupWithForm({
@@ -200,7 +179,6 @@ const profileModal = new PopupWithForm({
           about: newAbout,
           avatar: response.avatar,
         })
-        console.log(response);
         profileModal.close();
       })
       .catch((err) => console.log(err))
@@ -221,18 +199,14 @@ const cardAddModal = new PopupWithForm({
     //можно в принципе дисэйблить все кнопки на время выполнения запроса
     api.addCard(formCardData.name, formCardData.link)
       .then((cardJson) => {
-        console.log(cardJson);
         const card = createCard(cardJson);
         cardList.setItem(card);
         cardAddModal.close();
-        
       })
       .catch(error => console.log(error))
       .finally(() => {
         
-        //ЗАЧЕМ здесь дисэйблить кнопку а в других нет, забыл...
-        //buttonCard.classList.add('popup__button-save_disabled');
-        //buttonCard.setAttribute('disabled', true);
+        //Дисэйблим кнопку, чтобы при повторном открытии форма валидировалась повторно
         formValidatorCard.disableSaveButton();
         renderLoading(false, buttonCard, 'Добавить', 'Добавление...');
       });
@@ -245,19 +219,14 @@ const cardAddModal = new PopupWithForm({
 
 
 //картинка+подпись в модальном imageModal
-const popupImage = new PopupWithImage({
-  popupImageSelector: '.popup__image',
-  popupImageDescSelector: '.popup__image-description'
-}, popupImageSelector)
+const popupImage = new PopupWithImage(popupImageSelectorsCongig, popupImageSelector)
 
 
 const popupAvatarChange = new PopupWithForm({
   formSubmitHandler: (formAvatarData) => {
-    console.log(formAvatarData);
     renderLoading(true, changeAvaSubmitButton, 'Сохранить', 'Сохранение...');
     api.updateProfileImage(formAvatarData.link)
       .then((response) => {
-        console.log(response);
         userInfo.updateAvatar(response.avatar);
         popupAvatarChange.close();
       })
@@ -265,6 +234,7 @@ const popupAvatarChange = new PopupWithForm({
         console.log(error);
       })
       .finally(() => {
+        formValidatorAvatar.disableSaveButton();
         renderLoading(false, changeAvaSubmitButton, 'Сохранить', 'Сохранение...');
       });
     

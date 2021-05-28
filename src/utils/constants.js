@@ -76,3 +76,14 @@ export const formValidatorConfig = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__input-error_visible'
 }
+
+export const userInfoSelectorsConfig = {
+  userNameSelector: '.profile__name',
+  userAboutSelector: '.profile__about',
+  avatarSelector: '.profile__avatar',
+}
+
+export const popupImageSelectorsCongig = {
+  popupImageSelector: '.popup__image',
+  popupImageDescSelector: '.popup__image-description'
+}
