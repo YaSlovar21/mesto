@@ -74,6 +74,7 @@ const cardList = new Section({
   }
 }, cardsContainerSelector);
 
+
 Promise.all([api.getInfoUser(), api.getInitialCards()])
   .then(([userData, cards]) => {
     userInfo.setUserInfo(userData);
@@ -83,7 +84,6 @@ Promise.all([api.getInfoUser(), api.getInitialCards()])
   .catch((error) => {
     console.log(error);
   });
-
 
 function createCard(cardJson) {
   //gо сути на вход подается Json карточки
